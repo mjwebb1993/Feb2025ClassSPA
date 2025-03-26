@@ -25,10 +25,33 @@ router.hooks({
     // Add a switch case statement to handle multiple routes
     switch (view) {
       // Add a case for each view that needs data from an API
+      // New Case for the Home View
+      case "home":
+        // Get request to retrieve the current weather data using the API key and providing a city name
+        axios
+          .get(
+            `https://api.openweathermap.org/data/2.5/weather?appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial&q=st%20louis`
+          )
+          .then(response => {
+            console.log("response.data", response.data);
+            // Create an object to be stored in the Home state from the response
+            store.home.weather = {
+              city: response.data.name,
+              temp: response.data.main.temp,
+              feelsLike: response.data.main.feels_like,
+              description: response.data.weather[0].main
+            };
+            done();
+          })
+          .catch(err => {
+            console.log(err);
+            done();
+          });
+        break;
       case "pizza":
         // New Axios get request utilizing already made environment variable
         axios
-          .get(`https://sc-pizza-api.onrender.com/pizzas`)
+          .get(`${process.env.PIZZA_PLACE_API_URL}/pizzas`)
           .then(response => {
             // Storing retrieved data in state
             // The dot chain variable access represents the following {storeFolder.stateFileViewName.objectAttribute}

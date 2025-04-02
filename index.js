@@ -105,12 +105,6 @@ router
         render(store.viewNotFound);
         console.log(`View ${view} not defined`);
       }
-      // Now we can use viewName to find the correct state in our store
-      // If viewName is 'aboutMe', it will look for store.aboutMe
-      const state = store[view];
-
-      // Finally, render the page with the state
-      render(state);
     }
   })
   .resolve();
